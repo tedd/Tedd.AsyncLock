@@ -44,4 +44,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Tedd.ObjectPool" Version="2.0.0" />
+  </ItemGroup>
+
 </Project>
