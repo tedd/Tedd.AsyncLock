@@ -1,27 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
-    <Description>Async locking mechanism</Description>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageTags>AsyncLock;Async-Lock;Locking;Async</PackageTags>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
-    <Version>1.0.1</Version>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <TargetFrameworks>net462;netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>A lightweight, asynchronous-compatible mutex for .NET, facilitating mutual exclusion across synchronous and asynchronous paradigms while incorporating cancellation semantics.</Description>
+    <PackageTags>AsyncLock;Mutex;Locking;Async;Thread-Safe;Performance</PackageTags>
+    <Copyright>Tedd Hansen</Copyright>
     <PackageProjectUrl>https://github.com/tedd/Tedd.AsyncLock</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tedd/Tedd.AsyncLock.git</RepositoryUrl>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryType>git</RepositoryType>
+    <Version>1.0.1</Version>
     <Authors>tedd</Authors>
     <Company>Tedd Hansen</Company>
-    <Copyright>Tedd Hansen</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageReadmeFile>README-NUGET.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest-all</AnalysisLevel>
@@ -30,15 +22,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE">
+    <None Include="../../LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="README-NUGET.md">
+    <None Include="../../README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
