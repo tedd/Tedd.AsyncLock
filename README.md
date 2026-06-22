@@ -28,6 +28,21 @@ dotnet add package Tedd.AsyncLock
 - **Resource Management**: Leverages disposable idioms for deterministic lock relinquishment.
 - **Optimized Throughput**: Underpinned by SemaphoreSlim for minimal latency in uncontended scenarios.
 
+## Architectural Execution Flow
+
+The framework orchestrates an optimized mutual exclusion paradigm by structurally isolating the execution flow into established mechanical capabilities and planned architectural enhancements.
+
+### Established Mechanics
+1. **Semaphore Allocation**: Upon initialization, a singular capacity `SemaphoreSlim` is allocated, inherently supporting both synchronous (`Wait`) and asynchronous (`WaitAsync`) suspension patterns.
+2. **Deterministic Renting**: Upon successful lock acquisition, a structural `Releaser` object is vended. This token manages disposal semantics, ensuring singular deterministic release of the underlying lock.
+3. **Optimized Pooling**: The `Releaser` tokens are dynamically recycled utilizing an `ObjectPool`, effectively eliminating allocation overhead per structural acquisition sequence, scaling proportional to concurrent hardware logic paths.
+4. **Cancellation Flow**: All deterministic await operations integrate intrinsically with the underlying task scheduling system, yielding execution control when cancelled via structural `CancellationToken` hierarchies.
+
+### Architectural Hypotheses (Future Roadmap)
+- Implementation of structural thread-affiliation validation to prohibit cross-thread disposal in strictly synchronous scenarios, mitigating speculative programmer error.
+- Integration of hierarchical reentrancy structures for advanced multi-stage processing pipelines without localized deadlock anomalies.
+- Integration with ambient diagnostic contexts (e.g. `Activity` and `OpenTelemetry`) to trace lock acquisition latency structurally across complex operational fabrics.
+
 # Utilization Paradigms
 
 ## Asynchronous Acquisition
@@ -171,7 +186,11 @@ Leveraging SemaphoreSlim, it exhibits negligible overhead in low-contention scen
 
 ## Supported Runtimes
 
+- .NET Framework 4.6.2
+- .NET Standard 2.0
 - .NET Standard 2.1
+- .NET 8.0
+- .NET 10.0
 
 ## Licensing Terms
 
