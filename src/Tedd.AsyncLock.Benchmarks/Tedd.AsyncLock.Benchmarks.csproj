@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tedd.AsyncLock\Tedd.AsyncLock.csproj" />
+    <ProjectReference Include="..\Tedd.AsyncLock.Archive\Tedd.AsyncLock.Archive.csproj" />
+  </ItemGroup>
+</Project>
