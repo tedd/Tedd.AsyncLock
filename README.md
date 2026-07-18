@@ -138,8 +138,7 @@ using Tedd;
 var mutex = new AsyncLock();
 var temporalBound = TimeSpan.FromSeconds(2);
 
-var guardian = await mutex.TryEnterAsync(temporalBound);
-if (guardian != null)
+if (await mutex.TryEnterAsync(temporalBound) is { } guardian)
 {
     await using (guardian)
     {
@@ -183,6 +182,8 @@ else
 - **`bool TryEnter(out Releaser? releaser)`**: Probes for instantaneous mutex availability devoid of thread suspension.
 - **`ValueTask<Releaser> EnterAsync(CancellationToken cancellationToken = default)`**: Asynchronously secures the mutex; strictly propagates cancellation exceptions.
 - **`ValueTask<Releaser?> TryEnterAsync(TimeSpan timeout, CancellationToken cancellationToken = default)`**: Asynchronously evaluates mutex availability bounded by a stipulated temporal interval; yields null upon expiration.
+- **`void Dispose()`**: Synchronously disposes of the underlying semaphore.
+- **`ValueTask DisposeAsync()`**: Asynchronously disposes of the underlying semaphore if supported, otherwise executes synchronous disposal.
 
 ### Releaser Entity Architecture
 
