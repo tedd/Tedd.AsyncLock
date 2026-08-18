@@ -64,7 +64,7 @@ using System;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+await using var mutex = new AsyncLock();
 
 await using var guardian = await mutex.EnterAsync();
 // Exclusive asynchronous execution context
@@ -77,7 +77,7 @@ await Task.Yield();
 using System;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 
 using var guardian = mutex.Enter();
 // Exclusive synchronous execution context
@@ -91,7 +91,7 @@ using System;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+await using var mutex = new AsyncLock();
 
 // Asynchronous execution scope
 await using (var guardian = await mutex.EnterAsync())
@@ -114,7 +114,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+await using var mutex = new AsyncLock();
 using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
 try
@@ -135,7 +135,7 @@ using System;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+await using var mutex = new AsyncLock();
 var temporalBound = TimeSpan.FromSeconds(2);
 
 var guardian = await mutex.TryEnterAsync(temporalBound);
@@ -159,7 +159,7 @@ else
 using System;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 
 if (mutex.TryEnter(out var guardian))
 {
@@ -183,6 +183,8 @@ else
 - **`bool TryEnter(out Releaser? releaser)`**: Probes for instantaneous mutex availability devoid of thread suspension.
 - **`ValueTask<Releaser> EnterAsync(CancellationToken cancellationToken = default)`**: Asynchronously secures the mutex; strictly propagates cancellation exceptions.
 - **`ValueTask<Releaser?> TryEnterAsync(TimeSpan timeout, CancellationToken cancellationToken = default)`**: Asynchronously evaluates mutex availability bounded by a stipulated temporal interval; yields null upon expiration.
+- **`void Dispose()`**: Synchronously disposes of the underlying synchronization primitives.
+- **`ValueTask DisposeAsync()`**: Asynchronously disposes of the underlying synchronization primitives.
 
 ### Releaser Entity Architecture
 
