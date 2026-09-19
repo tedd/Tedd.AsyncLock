@@ -9,19 +9,21 @@ namespace Tedd.Benchmarks
     [MemoryDiagnoser]
     public class AsyncLockBenchmark
     {
-        private Tedd.Archive.AsyncLock _archiveLock = new();
+        private Tedd.Archive.AsyncLockLegacy _archiveLock = new();
         private Tedd.AsyncLock _currentLock = new();
 
         [Benchmark(Baseline = true)]
-        public async Task Archive_EnterAsync()
+        public async Task Archive_DisposeAsyncReleaser()
         {
-            await using var releaser = await _archiveLock.EnterAsync();
+            var r = await _archiveLock.EnterAsync();
+            await r.DisposeAsync();
         }
 
         [Benchmark]
-        public async Task Current_EnterAsync()
+        public async Task Current_DisposeAsyncReleaser()
         {
-            await using var releaser = await _currentLock.EnterAsync();
+            var r = await _currentLock.EnterAsync();
+            await r.DisposeAsync();
         }
     }
 
