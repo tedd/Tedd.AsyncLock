@@ -92,7 +92,6 @@ public sealed class AsyncLock : IDisposable, IAsyncDisposable
 #pragma warning restore CA1034
     {
         private SemaphoreSlim? _toRelease;
-        private int _released; // 0 = held, 1 = released
 
         // Pool of Releasers with cleanup to reset internal fields.
         private static readonly ObjectPool<Releaser> Pool =
@@ -107,21 +106,23 @@ public sealed class AsyncLock : IDisposable, IAsyncDisposable
         {
             var r = Pool.Allocate();
             r._toRelease = toRelease;
-            r._released = 0; // reset by pool cleanup as well; ensure fresh on rent
             return r;
         }
 
+        /// <summary>Time Complexity: O(1). Space Complexity: O(1).</summary>
         public void Dispose()
         {
             // Only release and return to pool once.
-            if (Interlocked.Exchange(ref _released, 1) == 0)
+            var semaphore = Interlocked.Exchange(ref _toRelease, null);
+            if (semaphore != null)
             {
-                _toRelease?.Release();
+                semaphore.Release();
                 // Return this token to the pool; pool cleanup will clear fields.
                 Pool.Free(this);
             }
         }
 
+        /// <summary>Time Complexity: O(1). Space Complexity: O(1).</summary>
         public ValueTask DisposeAsync()
         {
             Dispose();
@@ -132,7 +133,6 @@ public sealed class AsyncLock : IDisposable, IAsyncDisposable
         private void Cleanup()
         {
             _toRelease = null;
-            _released = 0;
         }
     }
 
