@@ -138,14 +138,11 @@ using Tedd;
 var mutex = new AsyncLock();
 var temporalBound = TimeSpan.FromSeconds(2);
 
-var guardian = await mutex.TryEnterAsync(temporalBound);
-if (guardian != null)
+if (await mutex.TryEnterAsync(temporalBound) is { } guardian)
 {
-    await using (guardian)
-    {
-        // Mutex successfully secured within the stipulated interval
-        await Task.Yield();
-    }
+    await using var _ = guardian;
+    // Mutex successfully secured within the stipulated interval
+    await Task.Yield();
 }
 else
 {
@@ -163,11 +160,9 @@ var mutex = new AsyncLock();
 
 if (mutex.TryEnter(out var guardian))
 {
-    using (guardian)
-    {
-        // Immediate acquisition achieved
-        Console.WriteLine("Execution active.");
-    }
+    using var _ = guardian;
+    // Immediate acquisition achieved
+    Console.WriteLine("Execution active.");
 }
 else
 {
