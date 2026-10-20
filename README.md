@@ -64,7 +64,7 @@ using System;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 
 await using var guardian = await mutex.EnterAsync();
 // Exclusive asynchronous execution context
@@ -77,7 +77,7 @@ await Task.Yield();
 using System;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 
 using var guardian = mutex.Enter();
 // Exclusive synchronous execution context
@@ -91,7 +91,7 @@ using System;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 
 // Asynchronous execution scope
 await using (var guardian = await mutex.EnterAsync())
@@ -114,7 +114,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 using var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
 try
@@ -135,7 +135,7 @@ using System;
 using System.Threading.Tasks;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 var temporalBound = TimeSpan.FromSeconds(2);
 
 var guardian = await mutex.TryEnterAsync(temporalBound);
@@ -159,7 +159,7 @@ else
 using System;
 using Tedd;
 
-var mutex = new AsyncLock();
+using var mutex = new AsyncLock();
 
 if (mutex.TryEnter(out var guardian))
 {
